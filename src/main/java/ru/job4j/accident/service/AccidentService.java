@@ -17,4 +17,16 @@ public class AccidentService {
     public List<Accident> findAll() {
         return repository.findAll();
     }
+
+    public void create(Accident accident) {
+        repository.save(accident);
+    }
+
+    public boolean update(Accident accident) {
+        return repository.replace(accident) != null;
+    }
+
+    public Accident findById(int id) {
+        return repository.findById(id);
+    }
 }

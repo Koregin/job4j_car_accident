@@ -2,6 +2,7 @@ package ru.job4j.accident.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.model.AccidentType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AccidentMem {
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(5);
+    private final List<AccidentType> types = new ArrayList<>();
 
     public AccidentMem() {
         accidents.put(1, new Accident(1, "accident1", "Врезался в бампер"));
@@ -20,19 +22,30 @@ public class AccidentMem {
         accidents.put(3, new Accident(3, "accident3", "Подрезал пешехода"));
         accidents.put(4, new Accident(4, "accident4", "Пересек две сплошные"));
         accidents.put(5, new Accident(5, "accident5", "Не уступил дорогу скорой"));
+        types.add(AccidentType.of(1, "Две машины"));
+        types.add(AccidentType.of(2, "Машина и человек"));
+        types.add(AccidentType.of(3, "Машина и велосипед"));
     }
 
     public List<Accident> findAll() {
         return new ArrayList<>(accidents.values());
     }
 
+    public List<AccidentType> findAllTypes() {
+        return types;
+    }
+
     public Accident save(Accident accident) {
         accident.setId(counter.incrementAndGet());
+        AccidentType type = accident.getType();
+        type.setName(types.get(type.getId() - 1).getName());
         accidents.putIfAbsent(accident.getId(), accident);
         return accident;
     }
 
     public Accident replace(Accident accident) {
+        AccidentType type = accident.getType();
+        type.setName(types.get(type.getId() - 1).getName());
         return accidents.computeIfPresent(accident.getId(), (id, oldAccident) -> accident);
     }
 

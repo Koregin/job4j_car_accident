@@ -31,6 +31,7 @@
                 <th scope="col">ID</th>
                 <th scope="col">Название</th>
                 <th scope="col">Описание</th>
+                <th scope="col">Тип</th>
             </tr>
             </thead>
             <tbody>
@@ -48,6 +49,9 @@
                     </td>
                     <td>
                         <c:out value="${accident.text}"/>
+                    </td>
+                    <td>
+                        <c:out value="${accident.type.name}"/>
                     </td>
                 </tr>
             </c:forEach>

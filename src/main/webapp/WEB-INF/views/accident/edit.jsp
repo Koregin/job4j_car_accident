@@ -36,6 +36,17 @@
             <td><input type='text' name='text' value="${accident.text}"></td>
         </tr>
         <tr>
+            <td>Тип:</td>
+            <td>
+                <select name="type.id">
+                    <jsp:useBean id="types" scope="request" type="java.util.List"/>
+                    <c:forEach var="type" items="${types}">
+                        <option value="${type.id}">${type.name}</option>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td colspan='2'><input class="btn btn-primary btn-sm" name="submit" type="submit" value="Сохранить"/></td>
         </tr>
     </table>

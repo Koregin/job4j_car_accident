@@ -6,7 +6,10 @@ import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.repository.AccidentMem;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AccidentService {
@@ -40,7 +43,11 @@ public class AccidentService {
         return repository.findAllRules();
     }
 
-    public Rule findRuleById(int id) {
-        return repository.findRuleById(id);
+    public Set<Rule> findRulesForAccident(String[] ids) {
+        Set<Rule> rules = new HashSet<>();
+        if (ids != null) {
+            Arrays.stream(ids).forEach(id -> rules.add(repository.findRuleById(Integer.parseInt(id))));
+        }
+        return rules;
     }
 }

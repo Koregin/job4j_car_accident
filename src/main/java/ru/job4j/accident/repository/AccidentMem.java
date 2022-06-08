@@ -16,7 +16,7 @@ public class AccidentMem {
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(5);
     private final Map<Integer, AccidentType> types = new ConcurrentHashMap<>();
-    private final List<Rule> rules = new ArrayList<>();
+    private final Map<Integer, Rule> rules = new ConcurrentHashMap<>();
 
     public AccidentMem() {
         accidents.put(1, new Accident(1, "accident1", "Врезался в бампер"));
@@ -27,9 +27,9 @@ public class AccidentMem {
         types.put(1, AccidentType.of(1, "Две машины"));
         types.put(2, AccidentType.of(2, "Машина и человек"));
         types.put(3, AccidentType.of(3, "Машина и велосипед"));
-        rules.add(Rule.of(1, "Статья. 1"));
-        rules.add(Rule.of(2, "Статья. 2"));
-        rules.add(Rule.of(3, "Статья. 3"));
+        rules.put(1, Rule.of(1, "Статья. 1"));
+        rules.put(2, Rule.of(2, "Статья. 2"));
+        rules.put(3, Rule.of(3, "Статья. 3"));
     }
 
     public List<Accident> findAll() {
@@ -41,11 +41,11 @@ public class AccidentMem {
     }
 
     public List<Rule> findAllRules() {
-        return rules;
+        return new ArrayList<>(rules.values());
     }
 
     public Rule findRuleById(int id) {
-        return rules.get(rules.indexOf(new Rule(id)));
+        return rules.get(id);
     }
 
     public Accident save(Accident accident) {

@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AccidentMem {
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(5);
-    private final List<AccidentType> types = new ArrayList<>();
+    private final Map<Integer, AccidentType> types = new ConcurrentHashMap<>();
     private final List<Rule> rules = new ArrayList<>();
 
     public AccidentMem() {
@@ -24,9 +24,9 @@ public class AccidentMem {
         accidents.put(3, new Accident(3, "accident3", "Подрезал пешехода"));
         accidents.put(4, new Accident(4, "accident4", "Пересек две сплошные"));
         accidents.put(5, new Accident(5, "accident5", "Не уступил дорогу скорой"));
-        types.add(AccidentType.of(1, "Две машины"));
-        types.add(AccidentType.of(2, "Машина и человек"));
-        types.add(AccidentType.of(3, "Машина и велосипед"));
+        types.put(1, AccidentType.of(1, "Две машины"));
+        types.put(2, AccidentType.of(2, "Машина и человек"));
+        types.put(3, AccidentType.of(3, "Машина и велосипед"));
         rules.add(Rule.of(1, "Статья. 1"));
         rules.add(Rule.of(2, "Статья. 2"));
         rules.add(Rule.of(3, "Статья. 3"));
@@ -37,7 +37,7 @@ public class AccidentMem {
     }
 
     public List<AccidentType> findAllTypes() {
-        return types;
+        return new ArrayList<>(types.values());
     }
 
     public List<Rule> findAllRules() {
@@ -50,15 +50,13 @@ public class AccidentMem {
 
     public Accident save(Accident accident) {
         accident.setId(counter.incrementAndGet());
-        AccidentType type = accident.getType();
-        type.setName(types.get(type.getId() - 1).getName());
+        accident.setType(types.get(accident.getType().getId()));
         accidents.putIfAbsent(accident.getId(), accident);
         return accident;
     }
 
     public Accident replace(Accident accident) {
-        AccidentType type = accident.getType();
-        type.setName(types.get(type.getId() - 1).getName());
+        accident.setType(types.get(accident.getType().getId()));
         return accidents.computeIfPresent(accident.getId(), (id, oldAccident) -> accident);
     }
 

@@ -36,12 +36,16 @@
             <td><input type='text' name='text' value="${accident.text}"></td>
         </tr>
         <tr>
+            <td>Адрес:</td>
+            <td><input type='text' name='address' value="${accident.address}"></td>
+        </tr>
+        <tr>
             <td>Тип:</td>
             <td>
                 <select name="type.id">
                     <jsp:useBean id="types" scope="request" type="java.util.List"/>
                     <c:forEach var="type" items="${types}">
-                        <option value="${type.id}">${type.name}</option>
+                        <option value="${type.id}" ${accident.type.equals(type) ? 'selected' : ''}>${type.name}</option>
                     </c:forEach>
                 </select>
             </td>
@@ -52,7 +56,7 @@
                 <select name="rIds" multiple>
                     <jsp:useBean id="rules" scope="request" type="java.util.List"/>
                     <c:forEach var="rule" items="${rules}">
-                        <option value="${rule.id}">${rule.name}</option>
+                        <option value="${rule.id}" ${accident.rules.contains(rule) ? 'selected' : ''}>${rule.name}</option>
                     </c:forEach>
                 </select>
         </tr>

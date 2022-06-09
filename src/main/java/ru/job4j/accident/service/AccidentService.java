@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.repository.AccidentJdbcTemplate;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -13,14 +13,15 @@ import java.util.Set;
 
 @Service
 public class AccidentService {
-    private final AccidentMem repository;
+    private final AccidentJdbcTemplate repository;
 
-    public AccidentService(AccidentMem repository) {
+    public AccidentService(AccidentJdbcTemplate repository) {
         this.repository = repository;
     }
 
+
     public List<Accident> findAll() {
-        return repository.findAll();
+        return repository.getAll();
     }
 
     public void create(Accident accident) {
@@ -31,8 +32,8 @@ public class AccidentService {
         return repository.replace(accident) != null;
     }
 
-    public Accident findById(int id) {
-        return repository.findById(id);
+    public Accident findAccidentById(int id) {
+        return repository.findAccidentById(id);
     }
 
     public List<AccidentType> findAllTypes() {

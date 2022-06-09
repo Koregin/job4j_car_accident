@@ -35,6 +35,10 @@
             <td><input type='text' name='text'></td>
         </tr>
         <tr>
+            <td>Адрес:</td>
+            <td><input type='text' name='address'></td>
+        </tr>
+        <tr>
             <td>Тип:</td>
             <td>
                 <select name="type.id">

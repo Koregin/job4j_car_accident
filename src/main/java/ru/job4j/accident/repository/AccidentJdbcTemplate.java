@@ -15,6 +15,7 @@ import java.util.Set;
 @Repository
 public class AccidentJdbcTemplate {
     private final JdbcTemplate jdbc;
+    private final String ln = System.lineSeparator();
 
     public AccidentJdbcTemplate(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
@@ -64,12 +65,8 @@ public class AccidentJdbcTemplate {
     }
 
     public List<Accident> getAll() {
-        return jdbc.query("select a.id as id, a.name as name,\n"
-                        + "       a.description as description,\n"
-                        + "       a.address as address,\n"
-                        + "       t.id as typeId, t.name as typeName\n"
-                        + "       from accident a\n"
-                        + "           inner join accident_type t on t.id = a.accident_type_id",
+        return jdbc.query("select a.id as id, a.name as name, a.description as description, a.address as address, t.id as typeId, t.name as typeName " + ln
+                        + " from accident a inner join accident_type t on t.id = a.accident_type_id",
                 (rs, row) -> {
                     Accident accident = new Accident();
                     accident.setId(rs.getInt("id"));
@@ -86,9 +83,9 @@ public class AccidentJdbcTemplate {
     }
 
     private List<Rule> findRulesByAccidentId(int id) {
-        return jdbc.query("select r.id as id, r.name as name\n"
-                        + "from accident_rule inner join rule r on r.id = accident_rule.rule_id\n"
-                        + "where accident_id = ?",
+        return jdbc.query("select r.id as id, r.name as name " + ln
+                        + " from accident_rule inner join rule r on r.id = accident_rule.rule_id " + ln
+                        + " where accident_id = ?",
                 (rs, row) -> {
                     Rule rule = new Rule();
                     rule.setId(rs.getInt("id"));
@@ -119,12 +116,8 @@ public class AccidentJdbcTemplate {
     }
 
     public Accident findAccidentById(int id) {
-        return jdbc.queryForObject("select a.id as id, a.name as name,\n"
-                        + "       a.description as description,\n"
-                        + "       a.address as address,\n"
-                        + "       t.id as typeId, t.name as typeName\n"
-                        + "       from accident a\n"
-                        + "           inner join accident_type t on t.id = a.accident_type_id where a.id = ?",
+        return jdbc.queryForObject("select a.id as id, a.name as name, a.description as description, a.address as address, t.id as typeId, t.name as typeName " + ln
+                        + " from accident a inner join accident_type t on t.id = a.accident_type_id where a.id = ?",
                 (rs, row) -> {
                     Accident accident = new Accident();
                     accident.setId(rs.getInt("id"));

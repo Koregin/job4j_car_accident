@@ -23,6 +23,7 @@
     <title>Accident</title>
 </head>
 <body>
+<h3>Редактирование записи</h3>
 <jsp:useBean id="accident" type="ru.job4j.accident.model.Accident" scope="request"/>
 <form action="<c:url value='/edit'/>" method='POST'>
     <table>

@@ -24,6 +24,7 @@
 </head>
 <body>
 <div class="container">
+    <a href="<c:url value='/logout'/>" class="btn btn-primary" role="button">Выйти из приложения</a>
     <div class="row">
         <table class="table">
             <thead>

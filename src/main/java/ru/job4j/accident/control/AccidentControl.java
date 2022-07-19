@@ -2,10 +2,7 @@ package ru.job4j.accident.control;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.service.AccidentService;
 
@@ -47,6 +44,12 @@ public class AccidentControl {
         String[] ids = req.getParameterValues("rIds");
         accident.setRules(accidentService.findRulesForAccident(ids));
         accidentService.update(accident);
+        return "redirect:/";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id) {
+        accidentService.delete(id);
         return "redirect:/";
     }
 }

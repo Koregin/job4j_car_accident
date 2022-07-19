@@ -63,6 +63,7 @@
         </tr>
         <tr>
             <td colspan='2'><input class="btn btn-primary btn-sm" name="submit" type="submit" value="Сохранить"/></td>
+            <td><a href="<c:url value='/delete/${accident.id}'/>" class="btn btn-danger" role="button">Удалить</a></td>
         </tr>
     </table>
 </form>

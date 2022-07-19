@@ -44,6 +44,10 @@ public class AccidentService {
         accidentRepo.save(accident);
     }
 
+    public void delete(int id) {
+        accidentRepo.delete(findAccidentById(id));
+    }
+
     @Transactional
     public Accident findAccidentById(int id) {
         return accidentRepo.findById(id).orElse(null);
